@@ -116,6 +116,7 @@ $(document).ready(function () {
         }, 500); // Match this timeout to the CSS transition duration
     });
 
+    ///CLICK OPEN
     document.getElementById('playPauseButton').addEventListener('click', function () {
 
         if (isPlaying) {
