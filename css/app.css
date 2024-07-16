@@ -4,21 +4,17 @@ body {
     /* padding: 0 !important; */
 }
 
+html,
+body {
+    touch-action: manipulation;
+}
+
 .font-esthetic {
     font-family: Sacramento, cursive !important;
 }
 
 .font-arabic {
     font-family: 'Noto Naskh Arabic', serif !important;
-}
-
-#scrollContainer {
-    position: absolute;
-    top: 100%;
-    /* Start off-screen */
-    height: 100%;
-    overflow: hidden;
-    /* Prevent internal scrolling */
 }
 
 .img-crop {
@@ -75,7 +71,7 @@ body {
     z-index: 1056 !important;
 }
 
-.card-body {
+.card-comment-body {
     overflow-wrap: break-word !important;
 }
 
@@ -262,18 +258,7 @@ footer {
     background-repeat: no-repeat;
 }
 
-.custom-card {
-    border: 1px solid #102C57;
-    border-radius: 1rem;
-    width: 100%;
-    /* Set to full width */
-    max-width: 450px;
-    /* Optional: set a max-width for larger screens */
-    margin: 0 auto;
-    /* Center the card horizontally */
-}
-
-.galery-card {
+.custom-card-comment {
     border: 1px solid #102C57;
     border-radius: 1rem;
     width: 100%;
@@ -281,12 +266,32 @@ footer {
     /* max-width: 450px; */
     /* Optional: set a max-width for larger screens */
     margin: 0 auto;
-    /* Center the card horizontally */
+    /* Center the card-comment horizontally */
+}
+
+.custom-card-comment-comment {
+    border: 1px solid #102C57;
+    border-radius: 1rem;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #FEFAF6;
+    /* Center the card-comment horizontally */
+}
+
+.galery-card-comment {
+    border: 1px solid #102C57;
+    border-radius: 1rem;
+    width: 100%;
+    /* Set to full width */
+    /* max-width: 450px; */
+    /* Optional: set a max-width for larger screens */
+    margin: 0 auto;
+    /* Center the card-comment horizontally */
 }
 
 /* Media query for mobile devices */
 @media (max-width: 767px) {
-    .custom-card {
+    .custom-card-comment {
         width: 100%;
         /* Full width on mobile */
     }
@@ -386,4 +391,28 @@ footer {
 .animated-vertical-item.visible {
     opacity: 1;
     transform: translate(0, 0);
+}
+
+
+/* COMMENT CARD */
+
+.card-comment-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.card-comment {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    border: 1px solid #EADBC8;
+    border-radius: 1rem;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 16px;
+    transition: transform 0.2s;
+    /* text-align: left; */
 }

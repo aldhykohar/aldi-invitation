@@ -41,7 +41,7 @@ $(document).ready(function () {
     ///ANIMATION ENTER
     const animation = () => {
 
-        const duration = 20 * 1000;
+        const duration = 15 * 1000;
         const animationEnd = Date.now() + duration;
         const colors = ["#6b08ff", "#102C57", "#29eaff"];
 
@@ -202,6 +202,15 @@ $(document).ready(function () {
     // Display the value in the output div
     document.getElementById('to-visitor').innerText = toValue;
 
+    document.addEventListener('gesturestart', function (e) {
+        e.preventDefault();
+    });
+    document.addEventListener('gesturechange', function (e) {
+        e.preventDefault();
+    });
+    document.addEventListener('gestureend', function (e) {
+        e.preventDefault();
+    });
 
 
 });
@@ -211,3 +220,48 @@ function animate(svg, timeout, classes) {
         svg.classList.add(classes);
     }, timeout);
 }
+
+//OPEN MODAL IMG
+function openModalImg(image) {
+    // Get the source of the clicked image
+    const src = image.src;
+
+    // Set the source of the modal image
+    const modalImage = document.getElementById('modalImage');
+    modalImage.src = src;
+
+    // Show the modal
+    $('#imageModal').modal('show');
+}
+
+async function fetchData() {
+    try {
+        const response = await fetch('https://makaversenews.makassar.go.id/complaint/get');
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        const data = await response.json();
+        renderCards(data);
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
+
+function renderCards(data) {
+    const cardList = document.getElementById('card-list');
+    cardList.innerHTML = ''; // Clear any existing content
+
+
+    data.data.forEach(item => {
+        const cardHTML = `
+            <div class="card-comment border rounded-4 shadow p-3 text-dark">
+                <p class="card-text mb-0" style="font-size: 1rem;">Aldi Arif Setiawan</p>
+                <p class="card-text" style="font-size: 0.8rem; color: gray;">${item.name}</p>
+                <p class="card-text" style="font-size: 0.6rem; color: gray;">10/07/2024</p>
+            </div>
+        `;
+        cardList.innerHTML += cardHTML; // Append the HTML to the card list
+    });
+}
+
+window.onload = fetchData();
