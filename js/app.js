@@ -202,6 +202,9 @@ $(document).ready(function () {
     // Display the value in the output div
     document.getElementById('to-visitor').innerText = toValue;
 
+    const formNameValue = getUrlParameter('to', '');
+    document.getElementById('form-name').value = formNameValue;
+
     document.addEventListener('gesturestart', function (e) {
         e.preventDefault();
     });
@@ -252,7 +255,7 @@ function renderCards(data) {
     cardList.innerHTML = ''; // Clear any existing content
 
 
-    data.data.forEach(item => {
+    [1, 2, 1, 1, 11, 1, 1, 1, 1, 11, 1, 1, 11,].forEach(item => {
         const cardHTML = `
             <div class="card-comment border rounded-4 shadow p-3 text-dark">
                 <p class="card-text mb-0" style="font-size: 1rem;">Aldi Arif Setiawan</p>
@@ -264,4 +267,99 @@ function renderCards(data) {
     });
 }
 
-window.onload = fetchData();
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDbyyTntLgnM4xm1Jqo7OJQfuatEb9aNyM",
+    authDomain: "my-invitation-17274.firebaseapp.com",
+    databaseURL: "https://my-invitation-17274-default-rtdb.firebaseio.com",
+    projectId: "my-invitation-17274",
+    storageBucket: "my-invitation-17274.appspot.com",
+    messagingSenderId: "370062769357",
+    appId: "1:370062769357:web:a2629085fe7e8130e3fd84",
+    measurementId: "G-82J4W5QSYR"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Get a reference to the database service
+const db = firebase.database();
+
+// Reference to your collection or node
+const dbRef = db.ref("list-comment");
+
+// Listen for real-time updates
+dbRef.on("value", (snapshot) => {
+    const data = snapshot.val();
+
+    const cardList = document.getElementById('card-list');
+    cardList.innerHTML = ''; // Clear any existing content
+
+    // Store data in an array
+    const items = [];
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            items.push({ name: data[key].name, comment: data[key].comment, date: data[key].date, });
+        }
+    }
+
+    // Reverse the array
+    items.reverse();
+
+    items.forEach(item => {
+        console.log(item);
+        const cardHTML = `
+            <div class="card-comment border rounded-4 shadow p-3 text-dark">
+                <p class="card-text mb-0" style="font-size: 1rem;">${item.name}</p>
+                <p class="card-text" style="font-size: 0.8rem; color: gray;">${item.comment}</p>
+                <p class="card-text" style="font-size: 0.6rem; color: gray;">${item.date}</p>
+            </div>
+        `;
+        cardList.innerHTML += cardHTML; // Append the HTML to the card list
+    });
+
+}, (error) => {
+    console.error("Error fetching real-time data: ", error);
+});
+
+// Format date and time
+function formatDateTime(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+}
+
+async function postComment() {
+    event.preventDefault(); // Prevent page refresh
+    const name = document.getElementById('form-name').value;
+    const comment = document.getElementById('form-comment').value;
+    const timestamp = formatDateTime(new Date());
+    const errorMessage = document.getElementById('error-message');
+
+    if (name === "") {
+        errorMessage.textContent = "Nama tidak boleh kosong!";
+        errorMessage.style.display = "block";
+    } else if (comment === "") {
+        errorMessage.textContent = "Ucapan tidak boleh kosong!";
+        errorMessage.style.display = "block";
+    } else {
+        errorMessage.style.display = "none"; // Hide error message
+        const timestamp = formatDateTime(new Date());
+
+        // Post data to Firebase
+        dbRef.push({ name: name, comment: comment, date: timestamp })
+            .then(() => {
+                console.log("Data posted successfully!");
+                document.getElementById('form-comment').value = ''; // Clear input
+            })
+            .catch((error) => {
+                console.error("Error posting data: ", error);
+            });
+    }
+
+}
+

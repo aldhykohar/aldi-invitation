@@ -22,6 +22,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/app.css">
 
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-database-compat.js"></script>
+
 </head>
 
 <body>
@@ -126,7 +132,7 @@
                     Agustus 2024</p>
 
                 <div class="animated-vertical-item" data-direction="bottom">
-                    <a href="https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NzRjMDhmOGZxcGRhZm9zbjk2NDFlZTFnbnYgYWxkaHlrb2hhckBt&tmsrc=aldhykohar%40gmail.com"
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The%20Wedding%20of%20Aldi%20and%20Andi%20Indri&details=The%20Wedding%20of%20Aldi%20and%20Andi%20Indri%7C%2004%20Agustus%202024%20%7C%20RT%2002%20RW%2001,%20Desa%20Abbanuange,%20Kec.%20Lilirilau,%20Kab.%20Soppeng,%20Sulawesi%20Selatan%20%7C%2010.00%20WIB%20-%20Selesai%20&dates=20240804T100000/20240804T110000&location=https://maps.app.goo.gl/zRkN7r21QAbLtXx88"
                         target="_blank" class="btn custom-button btn-sm rounded-pill shadow-sm px-3">
                         <i class="fa-solid fa-calendar-check me-2"></i> Save The Date
                     </a>
@@ -476,23 +482,23 @@
 
                                 <div class="col-5 card-body shadow p-3 m-3 animated-vertical-item custom-card"
                                     data-direction="top" data-duration="1.2s">
-                                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYRXRn-ok9aV3B9zGFZqp3DpWXOtLu4Pf_3ErDOUhxEDQaLeHBTIbzJM_gbQ44XFXA2pEXv4yZek05MHHi0RsoQm_RIWJcgNqqpAr_fc3qP-PpgGnK5Tn7plQbNxwyPvaLW8YNwsfqjTcVm_htDWCHvi83bP2tOc4bZl9HaqU3rlzTc2GPcNu5wA/w640-h160/Bank%20Permata%20-koleksilogo.com.png"
-                                        class="img-fluid w-50 rounded" alt="bni">
-                                    <p class="card-text mt-3 mb-0" style="font-size: 0.9rem;">No. Rekening 0987654321
+                                    <img src="./assets/images/bank-permata.png" class="img-fluid w-50 rounded"
+                                        alt="bni">
+                                    <p class="card-text mt-3 mb-0" style="font-size: 0.9rem;">No. Rekening 977397820
                                     </p>
                                     <p class="card-text" style="font-size: 0.9rem;">a.n Aldi Arif Setiawan</p>
                                     <button class="btn btn-outline-dark btn-sm rounded-3 copyButton"
-                                        data-copy="0987654321">Salin No. Rekening</button>
+                                        data-copy="977397820">Salin No. Rekening</button>
                                 </div>
 
                                 <div class="col-5 card-body shadow p-3 m-3 animated-vertical-item custom-card"
                                     data-direction="top" data-duration="1.2s">
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGOOsOtXl2eJdBuqGxs-HWYHQJ7HcVIZrUdg&s"
-                                        class="img-fluid w-50 rounded" alt="bri">
-                                    <p class="card-text mt-3 mb-0" style="font-size: 0.9rem;">No. Rekening 123456789</p>
+                                    <img src="./assets/images/bank-bsi.png" class="img-fluid w-50 rounded" alt="bri">
+                                    <p class="card-text mt-3 mb-0" style="font-size: 0.9rem;">No. Rekening 7262375522
+                                    </p>
                                     <p class="card-text" style="font-size: 0.9rem;">a.n Aldi Arif Setiawan</p>
                                     <button class="btn btn-outline-dark btn-sm rounded-3 copyButton"
-                                        data-copy="123456789">Salin No. Rekening</button>
+                                        data-copy="7262375522">Salin No. Rekening</button>
                                 </div>
                             </div>
                         </div>
@@ -514,6 +520,7 @@
                         <input type="text" class="form-control shadow-sm" id="form-name" placeholder="Isikan Nama Anda">
                     </div>
 
+                    <!-- 
                     <div class="mb-3">
                         <label for="form-presence" class="form-label" id="label-kehadiran">Kehadiran</label>
                         <select id="form-presence" name="options" class="form-control shadow-sm">
@@ -521,7 +528,7 @@
                             <option value="1">Hadir</option>
                             <option value="2">Berhalangan</option>
                         </select>
-                    </div>
+                    </div> -->
 
                     <div class="mb-3">
                         <label for="form-comment" class="form-label">Ucapan &amp; Doa</label>
@@ -529,16 +536,18 @@
                             placeholder="Tulis Ucapan dan Doa"></textarea>
                     </div>
 
+                    <div id="error-message" class="error" style="display: none; color:red"></div>
+
                     <div class="d-grid">
-                        <button class="btn btn-primary btn-sm rounded-3 shadow m-1" onclick="fetchData()">
+                        <button class="btn btn-primary btn-sm rounded-3 shadow m-1" onclick="postComment()">
                             <i class="fa-solid fa-paper-plane me-1"></i>Send
                         </button>
                     </div>
                 </div>
 
-                <div class="my-3 pt-3 text-dark" id="card-list"></div>
+                <div class="mt-4 text-dark list-container" id="card-list"></div>
 
-                <nav class="d-flex justify-content-center mb-0 pt-2">
+                <!-- <nav class="d-flex justify-content-center mb-0 pt-2">
                     <ul class="pagination mb-0">
                         <li class="page-item disabled" id="previous">
                             <button class="page-link" onclick="pagination.previous(this)">
@@ -554,7 +563,7 @@
                             </button>
                         </li>
                     </ul>
-                </nav>
+                </nav> -->
             </div>
         </div>
     </div>

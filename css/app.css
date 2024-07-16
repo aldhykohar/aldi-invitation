@@ -396,6 +396,18 @@ footer {
 
 /* COMMENT CARD */
 
+.list-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 400px;
+    /* Fixed height */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    padding: 15px;
+}
+
 .card-comment-list {
     display: flex;
     flex-direction: column;
