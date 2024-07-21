@@ -133,6 +133,12 @@ body {
 }
 
 .animate-love {
+    color: #EADBC8;
+    animation: love 5s ease-in-out infinite;
+}
+
+.animate-dark {
+    color: #102C57;
     animation: love 5s ease-in-out infinite;
 }
 
@@ -397,7 +403,7 @@ footer {
 /* COMMENT CARD */
 
 .list-container {
-    background-color: #fff;
+    background-color: #FEFAF6;
     border: 1px solid #ddd;
     border-radius: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
